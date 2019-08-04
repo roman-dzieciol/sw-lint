@@ -172,6 +172,7 @@ open class SWFormatter: SyntaxRewriter {
         .rightAngle,
         .leftParen,
         .rightParen,
+        .eof,
         .postfixQuestionMark:
             break
         default:

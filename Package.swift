@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "sw-lint",
-    platforms: [.macOS(.v10_14)],
+    platforms: [.macOS(.v10_15)],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .executable(
@@ -18,8 +18,9 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/apple/swift-syntax.git", .exact("0.50000.0")),
-        .package(url: "https://github.com/roman-dzieciol/swift-syntax-util.git", .exact("0.0.2"))
+        // .package(url: "https://github.com/apple/swift-syntax.git", .revision("xcode11-beta1"))
+        .package(path: "../_swift/swift-syntax"),
+        .package(path: "../swift-syntax-util")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

@@ -22,12 +22,7 @@ open class SWSyntaxPrinter<T: TextOutputStream>: SyntaxRewriter {
     open override func visitPre(_ node: Syntax) {
 
         if let token = node as? TokenSyntax {
-
-            if case let .identifier(name) = token.tokenKind {
-
-                output.write("\n\(indent.text)-- \(name)")
-            }
-
+            output.write(", \(token.tokenKind)")
         } else {
             output.write("\n\(indent.text)\(type(of: node))")
             indent.level += 1
