@@ -29,7 +29,11 @@ public extension V3_19 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            testStatus = try container.decode(String.self, forKey: .testStatus)
+            if decoder.userInfo[.schemaCodable] != nil {
+                testStatus = try container.decode(_Value<String>.self, forKey: .testStatus)._value
+            } else {
+                testStatus = try container.decode(String.self, forKey: .testStatus)
+            }
             try super.init(from: decoder)
         }
 
@@ -146,20 +150,59 @@ SourceFileSyntax
                                                                                             MemberAccessExprSyntax
                                                                                                 IdentifierExprSyntax, identifier("CodingKeys"), period, selfKeyword, rightParen
                                                         CodeBlockItemSyntax
-                                                            SequenceExprSyntax
-                                                                ExprListSyntax
-                                                                    IdentifierExprSyntax, identifier("testStatus")
-                                                                    AssignmentExprSyntax, equal
-                                                                    TryExprSyntax, tryKeyword
-                                                                        FunctionCallExprSyntax
-                                                                            MemberAccessExprSyntax
-                                                                                IdentifierExprSyntax, identifier("container"), period, identifier("decode"), leftParen
-                                                                            FunctionCallArgumentListSyntax
-                                                                                FunctionCallArgumentSyntax
+                                                            IfStmtSyntax, ifKeyword
+                                                                ConditionElementListSyntax
+                                                                    ConditionElementSyntax
+                                                                        SequenceExprSyntax
+                                                                            ExprListSyntax
+                                                                                SubscriptExprSyntax
                                                                                     MemberAccessExprSyntax
-                                                                                        IdentifierExprSyntax, identifier("String"), period, selfKeyword, comma
-                                                                                FunctionCallArgumentSyntax, identifier("forKey"), colon
-                                                                                    MemberAccessExprSyntax, prefixPeriod, identifier("testStatus"), rightParen
+                                                                                        IdentifierExprSyntax, identifier("decoder"), period, identifier("userInfo"), leftSquareBracket
+                                                                                    FunctionCallArgumentListSyntax
+                                                                                        FunctionCallArgumentSyntax
+                                                                                            MemberAccessExprSyntax, prefixPeriod, identifier("schemaCodable"), rightSquareBracket
+                                                                                BinaryOperatorExprSyntax, spacedBinaryOperator("!=")
+                                                                                NilLiteralExprSyntax, nilKeyword
+                                                                CodeBlockSyntax, leftBrace
+                                                                    CodeBlockItemListSyntax
+                                                                        CodeBlockItemSyntax
+                                                                            SequenceExprSyntax
+                                                                                ExprListSyntax
+                                                                                    IdentifierExprSyntax, identifier("testStatus")
+                                                                                    AssignmentExprSyntax, equal
+                                                                                    TryExprSyntax, tryKeyword
+                                                                                        MemberAccessExprSyntax
+                                                                                            FunctionCallExprSyntax
+                                                                                                MemberAccessExprSyntax
+                                                                                                    IdentifierExprSyntax, identifier("container"), period, identifier("decode"), leftParen
+                                                                                                FunctionCallArgumentListSyntax
+                                                                                                    FunctionCallArgumentSyntax
+                                                                                                        MemberAccessExprSyntax
+                                                                                                            SpecializeExprSyntax
+                                                                                                                IdentifierExprSyntax, identifier("_Value")
+                                                                                                                GenericArgumentClauseSyntax, leftAngle
+                                                                                                                    GenericArgumentListSyntax
+                                                                                                                        GenericArgumentSyntax
+                                                                                                                            SimpleTypeIdentifierSyntax, identifier("String"), rightAngle, period, selfKeyword, comma
+                                                                                                    FunctionCallArgumentSyntax, identifier("forKey"), colon
+                                                                                                        MemberAccessExprSyntax, prefixPeriod, identifier("testStatus"), rightParen, period, identifier("_value"), rightBrace, elseKeyword
+                                                                CodeBlockSyntax, leftBrace
+                                                                    CodeBlockItemListSyntax
+                                                                        CodeBlockItemSyntax
+                                                                            SequenceExprSyntax
+                                                                                ExprListSyntax
+                                                                                    IdentifierExprSyntax, identifier("testStatus")
+                                                                                    AssignmentExprSyntax, equal
+                                                                                    TryExprSyntax, tryKeyword
+                                                                                        FunctionCallExprSyntax
+                                                                                            MemberAccessExprSyntax
+                                                                                                IdentifierExprSyntax, identifier("container"), period, identifier("decode"), leftParen
+                                                                                            FunctionCallArgumentListSyntax
+                                                                                                FunctionCallArgumentSyntax
+                                                                                                    MemberAccessExprSyntax
+                                                                                                        IdentifierExprSyntax, identifier("String"), period, selfKeyword, comma
+                                                                                                FunctionCallArgumentSyntax, identifier("forKey"), colon
+                                                                                                    MemberAccessExprSyntax, prefixPeriod, identifier("testStatus"), rightParen, rightBrace
                                                         CodeBlockItemSyntax
                                                             TryExprSyntax, tryKeyword
                                                                 FunctionCallExprSyntax

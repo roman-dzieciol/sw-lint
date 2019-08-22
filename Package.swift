@@ -2,6 +2,13 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import Foundation
+
+func rpathsFromDyldPaths() -> [LinkerSetting] {
+    return (ProcessInfo.processInfo.environment["DYLD_LIBRARY_PATH"] ?? "")
+        .components(separatedBy: ":")
+        .map { .unsafeFlags(["-Xlinker", "-rpath", "-Xlinker", $0]) }
+}
 
 let package = Package(
     name: "sw-lint",
@@ -18,8 +25,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        // .package(url: "https://github.com/apple/swift-syntax.git", .revision("xcode11-beta1"))
-        .package(path: "../_swift/swift-syntax"),
+        .package(url: "https://github.com/roman-dzieciol/swift-syntax.git", .revision("xcode11-beta6-master")),
         .package(path: "../swift-syntax-util")
     ],
     targets: [
@@ -33,7 +39,8 @@ let package = Package(
             dependencies: ["SwiftSyntax", "SwiftSyntaxUtil"]),
         .testTarget(
             name: "SWLintKitTests",
-            dependencies: ["SWLintKit", "SwiftSyntax"])
+            dependencies: ["SWLintKit", "SwiftSyntax"],
+            linkerSettings: [] + rpathsFromDyldPaths())
     ],
     swiftLanguageVersions: [.v5]
 )
